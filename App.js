@@ -18,6 +18,8 @@ import {
   AsyncStorage,
   ActivityIndicator,
   FlatList,
+  ImageBackground,
+  Image,
 } from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator, HeaderTitle} from 'react-navigation-stack';
@@ -80,24 +82,49 @@ class HomeScreen extends React.Component {
   };
 }
 class DetailsScreen extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    headerRight: () => <Text>{navigation.state.params.title}</Text>;
-  };
-
+  static navigationOptions = { header: null }
   render() {
     const {navigation} = this.props;
     const {item} = this.props.navigation.state.params;
+    {
+      console.log(item);
+    }
+    // const {imageUrl} = this.props.navigation.state.params.item.item.image_url;
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>Details Screen</Text>
-        <Text>{item.id}</Text>
-        <Text>{item.item.title}</Text>
-        <Text>{item.id}</Text>
-        <Text>{item.id}</Text>
-        <Button
-          title="Go to Details... again"
-          onPress={() => this.props.navigation.navigate('Details')}
-        />
+      <View>
+        <View
+          style={{
+            width: '100%',
+            height: '93%',
+            flexDirection: 'row',
+            margin: 3,
+          }}>
+          <Image
+            style={{width: '100%', height: '100%', position: 'absolute'}}
+            source={{
+              uri: this.props.navigation.state.params.item.item.image_url,
+            }}
+          />
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              alignSelf: 'flex-end',
+            }}>
+            <Text style={{color: 'white', fontSize: 20, margin: 6}}>
+              #{item.item.rank}.{item.item.title}
+            </Text>
+            <Text style={{color: 'white', margin: 6}}>
+              Episodes:{item.item.episodes}
+            </Text>
+            <Text style={{color: 'white', margin: 6}}>
+              Score:{item.item.score}
+            </Text>
+            <Text style={{color: 'white', margin: 6}}>
+              StartDate:{item.item.start_date}
+            </Text>
+          </View>
+        </View>
         <Button
           title="Go back"
           onPress={() => this.props.navigation.navigate('Home')}
