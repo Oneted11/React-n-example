@@ -32,6 +32,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import AuthLoadingScreen from './components/AuthLoadingScreen';
 import SignInScreen from './components/SignInScreen';
+import {facebookService} from './components/FacebookService';
 
 const mockObj = {name: 'ted', index: 1, pet: {type: 'dog', age: 4}};
 
@@ -73,14 +74,15 @@ class HomeScreen extends React.Component {
             />
           )}
         </View>
-        {/* <Button title="Actually, sign me out :)" onPress={this._signOutAsync} /> */}
+        {facebookService.makeLogoutButton(accessToken => {
+          this.logout();
+        })}
       </View>
     );
   }
-  // _signOutAsync = async () => {
-  //   await AsyncStorage.clear();
-  //   this.props.navigation.navigate('Auth');
-  // };
+  logout() {
+    this.props.navigation.navigate('AuthLoading');
+  }
 }
 class DetailsScreen extends React.Component {
   static navigationOptions = {header: null};
