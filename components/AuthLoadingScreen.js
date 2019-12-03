@@ -6,9 +6,28 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import FBSDK from 'react-native-fbsdk';
+
+const {AccessToken} = FBSDK;
 
 export default class AuthLoadingScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      accessToken: null,
+    };
+  }
   componentDidMount() {
+    AccessToken.getCurrentAccessToken()
+      .then(data => {
+        this.setState({
+          accessToken: data.accessToken,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
     this._bootstrapAsync();
   }
 
@@ -18,7 +37,7 @@ export default class AuthLoadingScreen extends React.Component {
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+    this.props.navigation.navigate(this.state.accessToken ? 'App' : 'Auth');
   };
 
   // Render any loading content that you like here

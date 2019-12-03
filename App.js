@@ -31,6 +31,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import AuthLoadingScreen from './components/AuthLoadingScreen';
+import SignInScreen from './components/SignInScreen';
 
 const mockObj = {name: 'ted', index: 1, pet: {type: 'dog', age: 4}};
 
@@ -72,17 +73,17 @@ class HomeScreen extends React.Component {
             />
           )}
         </View>
-        <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
+        {/* <Button title="Actually, sign me out :)" onPress={this._signOutAsync} /> */}
       </View>
     );
   }
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-  };
+  // _signOutAsync = async () => {
+  //   await AsyncStorage.clear();
+  //   this.props.navigation.navigate('Auth');
+  // };
 }
 class DetailsScreen extends React.Component {
-  static navigationOptions = { header: null }
+  static navigationOptions = {header: null};
   render() {
     const {navigation} = this.props;
     const {item} = this.props.navigation.state.params;
@@ -133,24 +134,7 @@ class DetailsScreen extends React.Component {
     );
   }
 }
-class SignInScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Please sign in',
-  };
 
-  render() {
-    return (
-      <View>
-        <Button title="Sign in!" onPress={this._signInAsync} />
-      </View>
-    );
-  }
-
-  _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
-  };
-}
 const AuthStack = createStackNavigator({SignIn: SignInScreen});
 
 const AppStack = createStackNavigator(
